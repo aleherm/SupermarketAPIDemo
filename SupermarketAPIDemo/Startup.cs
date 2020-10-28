@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,9 @@ namespace SupermarketAPIDemo
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddAutoMapper();
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -38,6 +42,7 @@ namespace SupermarketAPIDemo
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseAuthentication();
             }
             else
             {
