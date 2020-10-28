@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using SupermarketAPIDemo.Domain.Persistence.Contexts;
 using SupermarketAPIDemo.Domain.Persistence.Repositories;
 using SupermarketAPIDemo.Domain.Repositories;
@@ -35,6 +36,11 @@ namespace SupermarketAPIDemo
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();
+
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "My API" });
+            });
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -42,7 +48,6 @@ namespace SupermarketAPIDemo
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseAuthentication();
             }
             else
             {
@@ -51,6 +56,12 @@ namespace SupermarketAPIDemo
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
+            });
         }
     }
 }
