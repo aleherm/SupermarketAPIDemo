@@ -33,13 +33,15 @@ namespace SupermarketAPIDemo
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();
 
             services.AddSwaggerGen(swagger =>
             {
-                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "My API" });
+                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "My SupermarketAPI" });
             });
         }
         
@@ -60,7 +62,7 @@ namespace SupermarketAPIDemo
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My SupermarketAPI");
             });
         }
     }
